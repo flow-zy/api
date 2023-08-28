@@ -22,6 +22,24 @@ Route::group('api',function(){
         // 修改用户
         Route::post('edit', 'account/edit');
         // 修改密码
-        Route::post('edit/pwd', 'account/editPwd');
+        Route::post('edit/pwd/:id', 'account/editPwd');
+    });
+    // 角色
+    Route::group('role',function(){
+        // 角色列表
+        Route::get('list', 'role/list');
+        // 添加角色
+        Route::post('add', 'role/add');
+        // 修改角色
+        Route::post('edit', 'role/edit');
+    });
+    // 权限
+    Route::group('permission',function(){
+        // 权限列表
+        Route::get('list', 'permission/list');
+        // 添加权限
+        Route::post('add', 'permission/add');
+        // 修改权限
+        Route::post('edit', 'permission/edit');
     });
 })->allowCrossDomain();

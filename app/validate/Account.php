@@ -4,25 +4,6 @@ namespace app\validate;
 use think\Validate;
 class Account extends Validate
 {
-    protected $db = 'account';
-    protected  $field=[
-        'id' => 'id',
-        'username' => '用户名',
-        'password' => '密码',
-        'status' => '状态',
-        'create_time' => '创建时间',
-        'update_time' => '更新时间',
-        'email' => '邮箱',
-        ];
-    protected  $type =[
-        'id' => 'integer',
-        'username' => 'string',
-        'password' => 'string',
-        'status' => 'integer',
-        'create_time' => 'datetime',
-        'update_time' => 'datetime',
-        'email' => 'email',
-    ];
     // 校验规则
     protected $rule = [
         'username' => 'require|string|max:10|min:2|unique',
@@ -31,6 +12,8 @@ class Account extends Validate
         'create_time' => 'require|datetime',
         'update_time' => 'datetime',
         'email' => 'email',
+        'phone'=>'mobile',
+        'role_id'=>'integer|gt:0'
     ];
     // 校验失败提示信息
     protected $message = [
@@ -49,10 +32,16 @@ class Account extends Validate
         'create_time.datetime' => '创建时间必须是合法的日期时间格式',
         'update_time.datetime' => '更新时间必须是合法的日期时间格式',
         'email.email' => '邮箱格式不正确',
+        'phone.mobile' => '手机号格式不正确',
+        'role_id.integer' => '角色id必须是整数',
+        'role_id.gt' => '角色id必须大于0'
     ];
     // 检验字段
     protected $scene = [
-        'login'=>['username','password']
+        'login'=>['username','password'],
+        'add'=>['username','password','create_time','update_time','email','phone','role_id'],
+        'edit'=>['username','status','update_time','email','phone','role_id'],
+        'editPwd'=>['password','update_time']
     ];
 
 }

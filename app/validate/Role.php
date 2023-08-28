@@ -5,16 +5,6 @@ use think\Validate;
 
 class Role extends Validate
 {
-    protected  $db='role';
-    protected  $field=[
-       'id'=>'角色ID',
-       'name'=>'角色名称',
-       'description'=>'角色描述',
-       'status'=>'角色状态',
-       'create_time'=>'创建时间',
-       'update_time'=>'更新时间',
-       'permissions'=>'权限列表'
-    ];
     protected $type = [
         'id' => 'integer',
         'name' => 'string',
