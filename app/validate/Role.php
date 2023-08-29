@@ -6,7 +6,6 @@ use think\Validate;
 class Role extends Validate
 {
     protected $type = [
-        'id' => 'integer',
         'name' => 'string',
         'description' => 'string',
         'create_time' => 'datetime',
@@ -38,7 +37,9 @@ class Role extends Validate
         'permissions.array'=>'权限必须为数组'
     ];
     protected $scene = [
-
+        'add' => ['name','description','status','permissions'],
+        'edit' => ['name','description','status','permissions'],
+        'editPre'=>['permissions']
     ];
 
 }

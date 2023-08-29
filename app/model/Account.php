@@ -48,23 +48,13 @@ class Account extends Model
         }
     }
     // 修改用户
-    public function updateUser($data)
+    public function updateUser($data,$id)
     {
         // TODO: Implement updateUser() method
         try {
-            return Db::table($this->table)->where('id', $data['id'])->update($data);
+            return Db::table($this->table)->where('id', $id)->update($data);
         }
         catch (DataNotFoundException|ModelNotFoundException|DbException $e) {
-            return error($e->getMessage(),null,$e->getCode());
-        }
-    }
-    // 删除用户
-    public function deleteUser($id)
-    {
-        // TODO: Implement deleteUser() method
-        try {
-            return Db::table($this->table)->where('id', $id)->delete();
-        } catch (DataNotFoundException|ModelNotFoundException|DbException $e) {
             return error($e->getMessage(),null,$e->getCode());
         }
     }
@@ -73,7 +63,8 @@ class Account extends Model
     {
         // TODO: Implement getUserList() method
         try {
-            return Db::table($this->table)->alias('account')
+            return Db::table($this->table)
+                ->alias('account')
                 ->join('role r ',' account.role_id = r.id','left')
                 ->field('account.*,count(*) as total,r.name')
                 ->paginate($page,$limit);
@@ -83,9 +74,9 @@ class Account extends Model
         }
     }
     // 修改用户密码
-    public function updatePwd($data){
+    public function updatePwd($data,$id){
         try {
-            return Db::table($this->table)->where('id', $data['id'])->update($data);
+            return Db::table($this->table)->where('id', $id)->update($data);
         }
         catch (DataNotFoundException|ModelNotFoundException|DbException $e) {
             return error($e->getMessage(),null,$e->getCode());

@@ -52,10 +52,11 @@ class  Account extends BaseController {
     // 修改用户
     public function edit(){
         $data = Request::post();
-        $data['update_time'] = date_create('now')->format('Y-m-d H:i:s');
+        $id=Request::param('id');
+        $data['update_time'] = date_create()->format('Y-m-d H:i:s');
         try {
             $this->validate->scene('edit')->check($data);
-            return  $this->service->edit($data);
+            return  $this->service->edit($data,$id);
         } catch (\Exception $e) {
             return error($e->getMessage());
         }
@@ -63,8 +64,8 @@ class  Account extends BaseController {
     // 添加用户
     public function add(){
         $data=Request::post();
-        $data['create_time'] = date_create('now')->format('Y-m-d H:i:s');
-        $data['update_time'] = date_create('now')->format('Y-m-d H:i:s');
+        $data['create_time'] = date_create()->format('Y-m-d H:i:s');
+        $data['update_time'] = date_create()->format('Y-m-d H:i:s');
         try {
             $this->validate->scene('add')->check($data);
             return  $this->service->addUser($data);
@@ -76,7 +77,7 @@ class  Account extends BaseController {
     public function editPwd(){
         $id=Request::param('id');
         $data=Request::post();
-        $data['update_time'] = date_create('now')->format('Y-m-d H:i:s');
+        $data['update_time'] = date_create()->format('Y-m-d H:i:s');
         try {
             $this->validate->scene('editPwd')->check($data);
             return  $this->service->editPwd($data,$id);

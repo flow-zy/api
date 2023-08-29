@@ -56,24 +56,25 @@ class Account extends Service
         $model = new UserModel();
         $page=(int)($query['pageNum']-1) * $query['pageSize'];
         $limit = (int)($query['pageSize'] * $query['pageNum']);
-        return $model->getUserList($page, $limit);
+         $users=$model->getUserList($page, $limit);
+         return success('查询成功', $users);
     }
 
     // 修改
-    public function edit($data)
+    public function edit($data,$id): \think\response\Json
     {
         $user = $this->model->getUser($data['username']);
         if (empty($user)) {
-            $this->model->updateUser($data);
+            $this->model->updateUser($data,$id);
             return success('修改成功');
         }
         return error('用户不存在');
     }
     // 修改密码
-    public function editPwd($data){
+    public function editPwd($data,$id): \think\response\Json{
         $user = $this->model->getUser($data['username']);
         if (empty($user)) {
-             $this->model->updatePwd($data);
+             $this->model->updatePwd($data,$id);
             return success('修改成功');
         }
         return error('用户不存在');

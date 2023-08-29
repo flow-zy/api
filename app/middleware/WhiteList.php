@@ -9,7 +9,7 @@ class WhiteList extends  Middleware
     // 路由白名单中间件
     public function handle($request, \Closure $next)
     {
-        $whiteList = ['/account/login','/account/add'];
+        $whiteList = ['/account/login','/account/add','/role/list'];
         $url = $request->url();
         $bool= count(array_filter($whiteList,function($val) use ($url) {
             $url=str_replace('api/','',$url);

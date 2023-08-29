@@ -20,7 +20,7 @@ Route::group('api',function(){
         // 添加用户
         Route::post('add', 'account/add');
         // 修改用户
-        Route::post('edit', 'account/edit');
+        Route::post('edit/:id', 'account/edit');
         // 修改密码
         Route::post('edit/pwd/:id', 'account/editPwd');
     });
@@ -31,7 +31,11 @@ Route::group('api',function(){
         // 添加角色
         Route::post('add', 'role/add');
         // 修改角色
-        Route::post('edit', 'role/edit');
+        Route::post('edit/:id', 'role/edit');
+        // 修改权限
+        Route::post('edit/permission/:id', 'role/editPermission');
+        //删除角色
+        Route::delete('del/:id', 'role/del');
     });
     // 权限
     Route::group('permission',function(){
