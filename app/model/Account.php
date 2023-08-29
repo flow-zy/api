@@ -29,9 +29,12 @@ class Account extends Model
     {
         // TODO: Implement getUser() method
         try {
-           return Db::table($this->table)->where('username',$username)->find();
+           return Db::table($this->table)->alias('account')
+                ->join('role r ',' account.role_id = r.id','LEFT')
+                ->field('account.*,r.name')->where('account.username',$username)
+               ->find();
         } catch (DataNotFoundException|ModelNotFoundException|DbException $e) {
-            return error($e->getMessage());
+            return error($e->getMessage(),null,$e->getCode());
         }
     }
     // 增加用户
@@ -41,7 +44,7 @@ class Account extends Model
         try {
             return Db::table($this->table)->insert($data);
         } catch (DataNotFoundException|ModelNotFoundException|DbException $e) {
-            return error($e->getMessage(),null);
+            return error($e->getMessage(),null,$e->getCode());
         }
     }
     // 修改用户
@@ -52,7 +55,7 @@ class Account extends Model
             return Db::table($this->table)->where('id', $data['id'])->update($data);
         }
         catch (DataNotFoundException|ModelNotFoundException|DbException $e) {
-            return error($e->getMessage(),null);
+            return error($e->getMessage(),null,$e->getCode());
         }
     }
     // 删除用户
@@ -62,7 +65,7 @@ class Account extends Model
         try {
             return Db::table($this->table)->where('id', $id)->delete();
         } catch (DataNotFoundException|ModelNotFoundException|DbException $e) {
-            return error($e->getMessage(),null);
+            return error($e->getMessage(),null,$e->getCode());
         }
     }
     // 获取用户列表
@@ -70,10 +73,13 @@ class Account extends Model
     {
         // TODO: Implement getUserList() method
         try {
-            return Db::table($this->table)->page($page,$limit)->select();
+            return Db::table($this->table)->alias('account')
+                ->join('role r ',' account.role_id = r.id','left')
+                ->field('account.*,count(*) as total,r.name')
+                ->paginate($page,$limit);
         }
         catch (DataNotFoundException|ModelNotFoundException|DbException $e) {
-            return error($e->getMessage(),null);
+            return error($e->getMessage(),null,$e->getCode());
         }
     }
     // 修改用户密码
@@ -82,7 +88,7 @@ class Account extends Model
             return Db::table($this->table)->where('id', $data['id'])->update($data);
         }
         catch (DataNotFoundException|ModelNotFoundException|DbException $e) {
-            return error($e->getMessage(),null);
+            return error($e->getMessage(),null,$e->getCode());
         }
     }
 }

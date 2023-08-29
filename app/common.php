@@ -11,14 +11,14 @@ use think\response\Json;
 //成功方法
 function success($msg = '', $data = null, $code = 200): Json
 {
-    return json(['code' => $code, 'msg' => $msg, 'data' => $data]);
+    return json(['code' => $code, 'message' => $msg, 'data' => $data],$code);
 }
 
 //失败方法
 
 function error($msg = '', $data = null, $code = 400): Json
 {
-    return json(['code' => $code, 'msg' => $msg, 'data' => $data], $code);
+    return json(['code' => $code, 'message' => $msg, 'data' => $data], $code);
 }
 
 //生成验签
