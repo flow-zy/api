@@ -1,0 +1,43 @@
+name: Deloyd to Production
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - run:
+          echo "🎉 Deployment to production server started..."
+        name: Checkout code
+      - uses: actions/checkout@v2
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.4'
+
+      - name: Install Composer
+        run:
+            curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --no-interaction --quiet
+
+      - name: Install Composer dependencies
+        run: composer install --no-progress --no-suggest --prefer-dist --optimize-autoloader
+
+      - name: Run Project
+        run: php think run -p 8000
+
+      - name: Github Pages
+        uses: crazy-max/ghaction-github-pages@v2
+        with:
+          build_dir: public
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+
+      - run:
+          echo "🎉 Deployment to production server finished..."
+
+
